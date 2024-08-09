@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <application
+        android:name=".MusicApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ServiceMania"
+        tools:targetApi="31">
+        <service
+            android:name=".services.job_schedule.MyJobSchedulerService"
+            android:enabled="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false" />
+        <service
+            android:name=".services.bound_services.MusicPlayerBoundService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
+        <receiver
+            android:name=".broadcast_receivers.SongBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.mohit.servicemania.download_complete" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".broadcast_receivers.TImeTickBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_TICK" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".services.started_services.SongDownloadHandlerThreadWithResultReceiverService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.started_services.SongDownloadHandlerThreadService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.started_services.thread_and_handler.SongDownloadUsingSeparateHandlerAndThreadService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.started_services.SongDownloadService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.started_services.SongDownloadDifferentThreadService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.started_services.SongDownloadHandlerThreadWithBroadcastReceiverService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.started_services.SongDownloadIntentService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".services.bound_services.SongDownloadBoundService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ServiceMania">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
